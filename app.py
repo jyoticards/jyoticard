@@ -56,11 +56,31 @@ st.markdown(
         padding: 10px;
         border-radius: 5px;
     }
-    .highlight {
+    .highlight-green {
         font-size: 1.25em;
         font-weight: bold;
         color: #ffffff;
-        background-color: #ff0000;
+        background-color: #28a745;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+        margin-top: 1em;
+    }
+    .highlight-yellow {
+        font-size: 1.25em;
+        font-weight: bold;
+        color: #ffffff;
+        background-color: #ffc107;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+        margin-top: 1em;
+    }
+    .highlight-red {
+        font-size: 1.25em;
+        font-weight: bold;
+        color: #ffffff;
+        background-color: #dc3545;
         padding: 10px;
         border-radius: 5px;
         text-align: center;
@@ -181,13 +201,17 @@ if item_no:
                 else:
                     st.markdown(f'<p class="result">No image available for {item}</p>', unsafe_allow_html=True)
         
-        # Highlighted message in Hindi
-        st.markdown('<p class="highlight">यह आइटम स्टॉक में नहीं है, कृपया पुष्टि करने के लिए ज्योति कार्ड्स में संपर्क करें - 9754656565</p>', unsafe_allow_html=True)
+        # Highlighted message for low stock or out of stock
+        if stock_status == 'Out of Stock':
+            st.markdown('<p class="highlight-red">यह आइटम स्टॉक में नहीं है, कृपया पुष्टि करने के लिए गोदाम में संपर्क करें</p>', unsafe_allow_html=True)
+        elif stock_status == 'Low Stock':
+            st.markdown('<p class="highlight-yellow">यह आइटम का स्टॉक कम है, कृपया अधिक जानकारी के लिए गोदाम में संपर्क करें</p>', unsafe_allow_html=True)
 
     # Display image of the selected item
     image_path_jpeg = f'{item_no}.jpeg'  # Adjust the file extension as needed
     if os.path.exists(image_path_jpeg):
         st.image(image_path_jpeg, caption=f'Image of {item_no}', use_column_width=True)
+        st.markdown('<p class="highlight-green">यह आइटम स्टॉक में है, कृपया ऑर्डर बुक करने के लिए गोदाम में संपर्क करें</p>', unsafe_allow_html=True)
     else:
         st.markdown('<p class="result">No image available for this ITEM NO.</p>', unsafe_allow_html=True)
 else:
