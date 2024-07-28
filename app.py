@@ -38,24 +38,6 @@ st.markdown(
         text-align: center;
         margin-top: 2em;
     }
-    .in-stock {
-        color: green;
-        background-color: #d4f8d4;
-        padding: 10px;
-        border-radius: 5px;
-    }
-    .out-of-stock {
-        color: red;
-        background-color: #f8d4d4;
-        padding: 10px;
-        border-radius: 5px;
-    }
-    .low-stock {
-        color: orange;
-        background-color: #fff2cc;
-        padding: 10px;
-        border-radius: 5px;
-    }
     .highlight-green {
         font-size: 1.25em;
         font-weight: bold;
@@ -111,7 +93,7 @@ file_path = 'STK SUMMARY NEW.XLSX'
 df = pd.read_excel(file_path)
 
 # Remove rows 1 to 8
-df_cleaned = df.iloc[8:].reset_index(drop=True)
+df_cleaned = df.iloc(8:].reset_index(drop=True)
 
 # Rename the columns
 df_cleaned.columns = ['ITEM NO.', 'Quantity']
@@ -174,22 +156,18 @@ if item_no:
         c = None
 
     if quantity is None or quantity == 0:
-        stock_status = 'Out of Stock'
-        status_class = 'out-of-stock'
+        st.markdown('<p class="highlight-red">यह आइटम स्टॉक में नहीं है, कृपया पुष्टि करने के लिए गोदाम में संपर्क करें</p>', unsafe_allow_html=True)
     elif condition_value is not None and quantity > condition_value:
-        stock_status = 'In Stock'
-        status_class = 'in-stock'
+        st.markdown('<p class="highlight-green">यह आइटम स्टॉक में है, कृपया ऑर्डर बुक करने के लिए गोदाम में संपर्क करें</p>', unsafe_allow_html=True)
     elif condition_value is not None:
-        stock_status = 'Low Stock'
-        status_class = 'low-stock'
+        st.markdown('<p class="highlight-yellow">यह आइटम का स्टॉक कम है, कृपया अधिक जानकारी के लिए गोदाम में संपर्क करें</p>', unsafe_allow_html=True)
     
     # Display results
-    st.markdown(f'<p class="result {status_class}">Stock Status: {stock_status}</p>', unsafe_allow_html=True)
     st.markdown(f'<p class="result">Rate: {rate}</p>', unsafe_allow_html=True)
     st.markdown(f'<p class="result">Item Type: {item_type}</p>', unsafe_allow_html=True)
     
     # Display matching items if stock status is low or out of stock
-    if stock_status == 'Out of Stock' or stock_status == 'Low Stock':
+    if condition_value is not None and (quantity is None or quantity == 0 or quantity <= condition_value):
         st.markdown(f'<p class="result">Matching Items: {a}, {b}, {c}</p>', unsafe_allow_html=True)
         
         matching_items = [a, b, c]
@@ -200,22 +178,13 @@ if item_no:
                     st.image(image_path_jpeg, caption=f'Image of {item}', use_column_width=True)
                 else:
                     st.markdown(f'<p class="result">No image available for {item}</p>', unsafe_allow_html=True)
-        
-        # Highlighted message for low stock or out of stock
-        if stock_status == 'Out of Stock':
-            st.markdown('<p class="highlight-red">यह आइटम स्टॉक में नहीं है, कृपया पुष्टि करने के लिए गोदाम में संपर्क करें</p>', unsafe_allow_html=True)
-        elif stock_status == 'Low Stock':
-            st.markdown('<p class="highlight-yellow">यह आइटम का स्टॉक कम है, कृपया अधिक जानकारी के लिए गोदाम में संपर्क करें</p>', unsafe_allow_html=True)
 
     # Display image of the selected item if in stock
-    if stock_status == 'In Stock':
-        image_path_jpeg = f'{item_no}.jpeg'  # Adjust the file extension as needed
-        if os.path.exists(image_path_jpeg):
-            st.image(image_path_jpeg, caption=f'Image of {item_no}', use_column_width=True)
-        st.markdown('<p class="highlight-green">यह आइटम स्टॉक में है, कृपया ऑर्डर बुक करने के लिए गोदाम में संपर्क करें</p>', unsafe_allow_html=True)
+    image_path_jpeg = f'{item_no}.jpeg'  # Adjust the file extension as needed
+    if os.path.exists(image_path_jpeg):
+        st.image(image_path_jpeg, caption=f'Image of {item_no}', use_column_width=True)
     else:
-        image_path_jpeg = f'{item_no}.jpeg'  # Adjust the file extension as needed
-        if not os.path.exists(image_path_jpeg):
+        if quantity is not None and quantity > 0:
             st.markdown('<p class="result">No image available for this ITEM NO.</p>', unsafe_allow_html=True)
 else:
     st.markdown('<p class="result">Please select an ITEM NO.</p>', unsafe_allow_html=True)
