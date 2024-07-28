@@ -72,10 +72,9 @@ st.markdown(
         display: inline-block;
         width: 24px;
         height: 24px;
-        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M6.62 10.79a15.535 15.535 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.27c1.21.48 2.53.73 3.88.73a1 1 0 011 1v3.5a1 1 0 01-1 1C10.84 22 2 13.16 2 2.5a1 1 0 011-1H6.5a1 1 0 011 1c0 1.35.25 2.67.73 3.88a1 1 0 01-.27 1.11l-2.2 2.2z"/></svg>');
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M6.62 10.79a15.535 15.535 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.27c1.21.48 2.53.73 3.88.73a1 1 0 011 1v3.5a1 1 0 01-1 1C10.84 22 2 13.16 2 2.5a1 1 0 011-1H6.5a1 1 0 011 1c0 1.35.25 2.67.73 3.88a1 1 0 01-.27 1.11l-2.2 2.2z"/></svg>');
         background-size: cover;
-        margin-left: 10px;
-        vertical-align: middle;
+        margin-top: 10px;
     }
     </style>
     """,
@@ -156,11 +155,14 @@ if item_no:
         c = None
 
     if quantity is None or quantity == 0:
-        st.markdown(f'<p class="highlight-red">यह आइटम स्टॉक में नहीं है, कृपया पुष्टि करने के लिए गोदाम में संपर्क करें {phone_link}</p>', unsafe_allow_html=True)
+        st.markdown('<p class="highlight-red">यह आइटम स्टॉक में नहीं है, कृपया पुष्टि करने के लिए गोदाम में संपर्क करें</p>', unsafe_allow_html=True)
     elif condition_value is not None and quantity > condition_value:
-        st.markdown(f'<p class="highlight-green">यह आइटम स्टॉक में है, कृपया ऑर्डर बुक करने के लिए गोदाम में संपर्क करें {phone_link}</p>', unsafe_allow_html=True)
+        st.markdown('<p class="highlight-green">यह आइटम स्टॉक में है, कृपया ऑर्डर बुक करने के लिए गोदाम में संपर्क करें</p>', unsafe_allow_html=True)
     elif condition_value is not None:
-        st.markdown(f'<p class="highlight-yellow">यह आइटम का स्टॉक कम है, कृपया अधिक जानकारी के लिए गोदाम में संपर्क करें {phone_link}</p>', unsafe_allow_html=True)
+        st.markdown('<p class="highlight-yellow">यह आइटम का स्टॉक कम है, कृपया अधिक जानकारी के लिए गोदाम में संपर्क करें</p>', unsafe_allow_html=True)
+
+    # Display phone icon below the highlighted area
+    st.markdown(f'{phone_link}', unsafe_allow_html=True)
     
     # Display results
     st.markdown(f'<p class="result">Rate: {rate}</p>', unsafe_allow_html=True)
