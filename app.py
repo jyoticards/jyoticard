@@ -121,6 +121,8 @@ if item_no:
     st.markdown(f'<p class="result">Item Type: {item_type}</p>', unsafe_allow_html=True)
     if stock_status == 'Out of Stock' or stock_status == 'Low Stock':
         st.markdown(f'<p class="result">Matching Items: {a}, {b}, {c}</p>', unsafe_allow_html=True)
+        s
+        st.image(image_path, caption=f'Image of {item_no}', use_column_width=True)
 
     # Display image
     image_path = f'{item_no}.jpeg' 
