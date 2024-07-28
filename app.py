@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import os
 
-
 logo_path = 'jyoti logo-1.png'
 
 # Custom CSS for styling
@@ -56,6 +55,16 @@ st.markdown(
         background-color: #fff2cc;
         padding: 10px;
         border-radius: 5px;
+    }
+    .highlight {
+        font-size: 1.25em;
+        font-weight: bold;
+        color: #ffffff;
+        background-color: #ff0000;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+        margin-top: 1em;
     }
     .marquee {
         font-size: 1.25em;
@@ -166,16 +175,19 @@ if item_no:
         matching_items = [a, b, c]
         for item in matching_items:
             if item:
-                image_path = f'{item}.jpeg'  # Adjust the file extension as needed
-                if os.path.exists(image_path):
-                    st.image(image_path, caption=f'Image of {item}', use_column_width=True)
+                image_path_jpeg = f'{item}.jpeg'  # Adjust the file extension as needed
+                if os.path.exists(image_path_jpeg):
+                    st.image(image_path_jpeg, caption=f'Image of {item}', use_column_width=True)
                 else:
                     st.markdown(f'<p class="result">No image available for {item}</p>', unsafe_allow_html=True)
+        
+        # Highlighted message in Hindi
+        st.markdown('<p class="highlight">यह आइटम स्टॉक में नहीं है, कृपया पुष्टि करने के लिए ज्योति कार्ड्स में संपर्क करें - 9754656565</p>', unsafe_allow_html=True)
 
     # Display image of the selected item
-    image_path = f'{item_no}.jpeg'  # Adjust the file extension as needed
-    if os.path.exists(image_path):
-        st.image(image_path, caption=f'Image of {item_no}', use_column_width=True)
+    image_path_jpeg = f'{item_no}.jpeg'  # Adjust the file extension as needed
+    if os.path.exists(image_path_jpeg):
+        st.image(image_path_jpeg, caption=f'Image of {item_no}', use_column_width=True)
     else:
         st.markdown('<p class="result">No image available for this ITEM NO.</p>', unsafe_allow_html=True)
 else:
