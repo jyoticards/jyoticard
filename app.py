@@ -173,7 +173,7 @@ if item_no:
                     st.markdown(f'<p class="result">No image available for {item}</p>', unsafe_allow_html=True)
 
     # Display image of the selected item
-    image_path = os.path.join('ITEM IMAGES', f'{item_no}.jpeg')  # Adjust the file extension as needed
+    image_path = f'{item_no}.jpeg'  # Adjust the file extension as needed
     if os.path.exists(image_path):
         st.image(image_path, caption=f'Image of {item_no}', use_column_width=True)
     else:
