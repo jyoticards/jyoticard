@@ -166,7 +166,7 @@ if item_no:
         matching_items = [a, b, c]
         for item in matching_items:
             if item:
-                image_path = os.path.join('ITEM IMAGES', f'{item}.jpeg')  # Adjust the file extension as needed
+                image_path = f'{item}.jpeg'  # Adjust the file extension as needed
                 if os.path.exists(image_path):
                     st.image(image_path, caption=f'Image of {item}', use_column_width=True)
                 else:
