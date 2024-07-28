@@ -93,7 +93,7 @@ file_path = 'STK SUMMARY NEW.XLSX'
 df = pd.read_excel(file_path)
 
 # Remove rows 1 to 8
-df_cleaned = df.iloc(8:].reset_index(drop=True)
+df_cleaned = df.iloc[8:].reset_index(drop=True)
 
 # Rename the columns
 df_cleaned.columns = ['ITEM NO.', 'Quantity']
