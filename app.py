@@ -68,13 +68,29 @@ st.markdown(
         text-align: center;
         margin-top: 1em;
     }
-    .phone-icon {
+    .call-button {
         display: inline-block;
-        width: 24px;
-        height: 24px;
-        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M6.62 10.79a15.535 15.535 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.27c1.21.48 2.53.73 3.88.73a1 1 0 011 1v3.5a1 1 0 01-1 1C10.84 22 2 13.16 2 2.5a1 1 0 011-1H6.5a1 1 0 011 1c0 1.35.25 2.67.73 3.88a1 1 0 01-.27 1.11l-2.2 2.2z"/></svg>');
-        background-size: cover;
+        font-size: 1.25em;
+        font-weight: bold;
+        color: #ffffff;
+        background-color: #007bff;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
         margin-top: 10px;
+        text-decoration: none;
+    }
+    .marquee {
+        font-size: 1.25em;
+        font-weight: bold;
+        background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+        -webkit-background-clip: text;
+        color: transparent;
+        animation: marquee 10s linear infinite;
+    }
+    @keyframes marquee {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-100%); }
     }
     </style>
     """,
@@ -124,7 +140,7 @@ st.markdown('<h1 class="title">Jyoti Cards Stock Status</h1>', unsafe_allow_html
 item_no = st.selectbox('Select ITEM NO.', item_no_list, index=0)
 
 phone_number = "8952839355"
-phone_link = f'<a href="tel:{phone_number}" target="_blank"><span class="phone-icon"></span></a>'
+call_button = f'<a href="tel:{phone_number}" class="call-button">Call</a>'
 
 if item_no:
     # Check if ITEM NO. exists in cleaned data
@@ -161,8 +177,8 @@ if item_no:
     elif condition_value is not None:
         st.markdown('<p class="highlight-yellow">यह आइटम का स्टॉक कम है, कृपया अधिक जानकारी के लिए गोदाम में संपर्क करें</p>', unsafe_allow_html=True)
 
-    # Display phone icon below the highlighted area
-    st.markdown(f'{phone_link}', unsafe_allow_html=True)
+    # Display call button below the highlighted area
+    st.markdown(f'{call_button}', unsafe_allow_html=True)
     
     # Display results
     st.markdown(f'<p class="result">Rate: {rate}</p>', unsafe_allow_html=True)
