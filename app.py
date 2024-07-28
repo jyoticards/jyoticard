@@ -207,13 +207,16 @@ if item_no:
         elif stock_status == 'Low Stock':
             st.markdown('<p class="highlight-yellow">यह आइटम का स्टॉक कम है, कृपया अधिक जानकारी के लिए गोदाम में संपर्क करें</p>', unsafe_allow_html=True)
 
-    # Display image of the selected item
-    image_path_jpeg = f'{item_no}.jpeg'  # Adjust the file extension as needed
-    if os.path.exists(image_path_jpeg):
-        st.image(image_path_jpeg, caption=f'Image of {item_no}', use_column_width=True)
+    # Display image of the selected item if in stock
+    if stock_status == 'In Stock':
+        image_path_jpeg = f'{item_no}.jpeg'  # Adjust the file extension as needed
+        if os.path.exists(image_path_jpeg):
+            st.image(image_path_jpeg, caption=f'Image of {item_no}', use_column_width=True)
         st.markdown('<p class="highlight-green">यह आइटम स्टॉक में है, कृपया ऑर्डर बुक करने के लिए गोदाम में संपर्क करें</p>', unsafe_allow_html=True)
     else:
-        st.markdown('<p class="result">No image available for this ITEM NO.</p>', unsafe_allow_html=True)
+        image_path_jpeg = f'{item_no}.jpeg'  # Adjust the file extension as needed
+        if not os.path.exists(image_path_jpeg):
+            st.markdown('<p class="result">No image available for this ITEM NO.</p>', unsafe_allow_html=True)
 else:
     st.markdown('<p class="result">Please select an ITEM NO.</p>', unsafe_allow_html=True)
 
