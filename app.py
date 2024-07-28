@@ -68,17 +68,14 @@ st.markdown(
         text-align: center;
         margin-top: 1em;
     }
-    .marquee {
-        font-size: 1.25em;
-        font-weight: bold;
-        background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
-        -webkit-background-clip: text;
-        color: transparent;
-        animation: marquee 10s linear infinite;
-    }
-    @keyframes marquee {
-        0% { transform: translateX(100%); }
-        100% { transform: translateX(-100%); }
+    .phone-icon {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M6.62 10.79a15.535 15.535 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.27c1.21.48 2.53.73 3.88.73a1 1 0 011 1v3.5a1 1 0 01-1 1C10.84 22 2 13.16 2 2.5a1 1 0 011-1H6.5a1 1 0 011 1c0 1.35.25 2.67.73 3.88a1 1 0 01-.27 1.11l-2.2 2.2z"/></svg>');
+        background-size: cover;
+        margin-left: 10px;
+        vertical-align: middle;
     }
     </style>
     """,
@@ -127,6 +124,9 @@ st.markdown('<h1 class="title">Jyoti Cards Stock Status</h1>', unsafe_allow_html
 # Dropdown for ITEM NO.
 item_no = st.selectbox('Select ITEM NO.', item_no_list, index=0)
 
+phone_number = "8952839355"
+phone_link = f'<a href="tel:{phone_number}" target="_blank"><span class="phone-icon"></span></a>'
+
 if item_no:
     # Check if ITEM NO. exists in cleaned data
     item_row = cleaned_df[cleaned_df['ITEM NO.'] == item_no]
@@ -156,11 +156,11 @@ if item_no:
         c = None
 
     if quantity is None or quantity == 0:
-        st.markdown('<p class="highlight-red">यह आइटम स्टॉक में नहीं है, कृपया पुष्टि करने के लिए गोदाम में संपर्क करें</p>', unsafe_allow_html=True)
+        st.markdown(f'<p class="highlight-red">यह आइटम स्टॉक में नहीं है, कृपया पुष्टि करने के लिए गोदाम में संपर्क करें {phone_link}</p>', unsafe_allow_html=True)
     elif condition_value is not None and quantity > condition_value:
-        st.markdown('<p class="highlight-green">यह आइटम स्टॉक में है, कृपया ऑर्डर बुक करने के लिए गोदाम में संपर्क करें</p>', unsafe_allow_html=True)
+        st.markdown(f'<p class="highlight-green">यह आइटम स्टॉक में है, कृपया ऑर्डर बुक करने के लिए गोदाम में संपर्क करें {phone_link}</p>', unsafe_allow_html=True)
     elif condition_value is not None:
-        st.markdown('<p class="highlight-yellow">यह आइटम का स्टॉक कम है, कृपया अधिक जानकारी के लिए गोदाम में संपर्क करें</p>', unsafe_allow_html=True)
+        st.markdown(f'<p class="highlight-yellow">यह आइटम का स्टॉक कम है, कृपया अधिक जानकारी के लिए गोदाम में संपर्क करें {phone_link}</p>', unsafe_allow_html=True)
     
     # Display results
     st.markdown(f'<p class="result">Rate: {rate}</p>', unsafe_allow_html=True)
