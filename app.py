@@ -101,7 +101,7 @@ st.markdown(
 st.markdown('<div class="marquee">Offer of the Day - 5% off</div>', unsafe_allow_html=True)
 
 # Load the Excel file
-file_path = 'StkSum.XLSX'
+file_path = 'StkSum.xlsx'
 df = pd.read_excel(file_path)
 
 # Remove rows 1 to 8
