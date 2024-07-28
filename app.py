@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 import os
 
+
+logo_path = 'jyoti logo-1.png'
+
 # Custom CSS for styling
 st.markdown(
     """
@@ -28,6 +31,7 @@ st.markdown(
         font-size: 1.25em;
         color: #333;
         font-weight: bold;
+        text-align: center;
     }
     .footer {
         font-size: 1em;
@@ -35,11 +39,43 @@ st.markdown(
         text-align: center;
         margin-top: 2em;
     }
+    .in-stock {
+        color: green;
+        background-color: #d4f8d4;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .out-of-stock {
+        color: red;
+        background-color: #f8d4d4;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .low-stock {
+        color: orange;
+        background-color: #fff2cc;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .marquee {
+        font-size: 1.25em;
+        font-weight: bold;
+        background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+        -webkit-background-clip: text;
+        color: transparent;
+        animation: marquee 10s linear infinite;
+    }
+    @keyframes marquee {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-100%); }
+    }
     </style>
     """,
     unsafe_allow_html=True
 )
-import pandas as pd
+
+# Add the marquee line
+st.markdown('<div class="marquee">Offer of the Day - 5% off</div>', unsafe_allow_html=True)
 
 # Load the Excel file
 file_path = 'STK SUMMARY NEW.XLSX'
@@ -56,7 +92,6 @@ df_cleaned['ITEM NO.'] = df_cleaned['ITEM NO.'].apply(lambda x: x.split()[0] if 
 
 # Process the Quantity column
 df_cleaned['Quantity'] = df_cleaned['Quantity'].astype(str).str.replace(' pcs', '').astype(float) * 100
-
 
 cleaned_df = df_cleaned
 
@@ -75,6 +110,7 @@ alternative_df['ITEM NO.'] = alternative_df['ITEM NO.'].astype(str)
 item_no_list = [''] + cleaned_df['ITEM NO.'].tolist()
 
 # Streamlit app
+st.image(logo_path, width=200)  # Display the logo
 st.markdown('<h1 class="title">Jyoti Cards Stock Status</h1>', unsafe_allow_html=True)
 
 # Dropdown for ITEM NO.
@@ -110,22 +146,34 @@ if item_no:
 
     if quantity is None or quantity == 0:
         stock_status = 'Out of Stock'
+        status_class = 'out-of-stock'
     elif condition_value is not None and quantity > condition_value:
         stock_status = 'In Stock'
+        status_class = 'in-stock'
     elif condition_value is not None:
         stock_status = 'Low Stock'
+        status_class = 'low-stock'
     
     # Display results
-    st.markdown(f'<p class="result">Stock Status: {stock_status}</p>', unsafe_allow_html=True)
+    st.markdown(f'<p class="result {status_class}">Stock Status: {stock_status}</p>', unsafe_allow_html=True)
     st.markdown(f'<p class="result">Rate: {rate}</p>', unsafe_allow_html=True)
     st.markdown(f'<p class="result">Item Type: {item_type}</p>', unsafe_allow_html=True)
+    
+    # Display matching items if stock status is low or out of stock
     if stock_status == 'Out of Stock' or stock_status == 'Low Stock':
         st.markdown(f'<p class="result">Matching Items: {a}, {b}, {c}</p>', unsafe_allow_html=True)
-        s
-        st.image(image_path, caption=f'Image of {item_no}', use_column_width=True)
+        
+        matching_items = [a, b, c]
+        for item in matching_items:
+            if item:
+                image_path = os.path.join('ITEM IMAGES', f'{item}.jpeg')  # Adjust the file extension as needed
+                if os.path.exists(image_path):
+                    st.image(image_path, caption=f'Image of {item}', use_column_width=True)
+                else:
+                    st.markdown(f'<p class="result">No image available for {item}</p>', unsafe_allow_html=True)
 
-    # Display image
-    image_path = f'{item_no}.jpeg' 
+    # Display image of the selected item
+    image_path = os.path.join('ITEM IMAGES', f'{item_no}.jpeg')  # Adjust the file extension as needed
     if os.path.exists(image_path):
         st.image(image_path, caption=f'Image of {item_no}', use_column_width=True)
     else:
